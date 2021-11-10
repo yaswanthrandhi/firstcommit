@@ -1,25 +1,26 @@
 <?php
-$username = $_POST['username'];
-$password = $_POST['password'];
-
-//database connection here
-$con = new mysqli("localhost","root","","phpclasses");
-if($con->connect_error) {
-    die("Failed to connect : ".$con->connect_error);
-} else{
-    $stmt = $con->prepare("select * from userdatabase where username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt_result = $stmt->get_result();
-    if($stmt_result->num_rows > 0){
-        $data = $stmt_result->fetch_assoc();
-        if($data['password'] === $password) {
-            echo "<h2>login successfully</h2>";
-        } else {
-            echo "<h2> invalid username</h2>";
-        }
-    } else {
-        echo "<h2> invalid username</h2>"
+$connect=mysqli_connect("localhost","root","","userdatabase") or die("connection failed");
+if (!empty($_POST['save']))
+{
+    $username = $_POST['un'];
+    $password = $_POST['pw'];
+    $query = "select * from userdatabase where username = '$username' and password = '$password'";
+    $result = mysqli_query($connect,$query);
+    $count = mysqli_num_rows($result);
+    if($count>0)
+    {
+        echo "login successful";
+    }
+    else{
+        echo "login not successful";
     }
 }
 ?>
+
+<form method="POST">
+    Enter username<input type="text" name="un"/>
+    <br/>
+    Enter password<input type="text" name="pw"/>
+    <br/>
+    <input type="submit" name="save" value="login"/>
+</form>
