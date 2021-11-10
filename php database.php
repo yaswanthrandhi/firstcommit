@@ -20,7 +20,7 @@ if (!empty($_POST['save']))
 <form method="POST">
     Enter username<input type="text" name="un"/>
     <br/>
-    Enter password<input type="text" name="pw"/>
+    Enter password<input type="password" name="pw"/>
     <br/>
     <input type="submit" name="save" value="login"/>
 </form>
